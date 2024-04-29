@@ -9,6 +9,7 @@ class FileMetadata extends Model {
   public filename!: string;
   public file!: string;
   public categoryId!: number;
+  public randomString!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -19,6 +20,7 @@ class FileMetadata extends Model {
     FileMetadata.belongsTo(Category, {
       foreignKey: "categoryId",
       onDelete: "CASCADE",
+      hooks: true,
     });
   }
 }
@@ -42,12 +44,16 @@ FileMetadata.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    file: {
+    originalFileName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     categoryId: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    randomString: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

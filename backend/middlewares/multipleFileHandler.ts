@@ -56,7 +56,7 @@ export const saveFiles = async (
           req.body.files.push({
             filename,
             originalFileName: file.originalname,
-            fileType: file.originalname.split(".").pop(),
+            filetype: file.originalname.split(".").pop(),
           });
         } catch (error) {
           next(error);

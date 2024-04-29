@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import fileRoutes from "./routers/file.router";
-import categoryRoutes from "./routers/file.router";
+import categoryRoutes from "./routers/category.router";
 
 dotenv.config();
 const app: express.Application = express();
