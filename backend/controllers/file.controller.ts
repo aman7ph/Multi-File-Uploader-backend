@@ -32,7 +32,7 @@ const uploadFile = catchAsync(
 
     res.status(201).json({
       status: "success",
-      message: "Uploaded successfully",
+      message: "File Uploaded successfully",
     });
   }
 );
@@ -82,34 +82,31 @@ const updateFile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { description, categoryId, id } = req.body;
     console.log(id.length);
-    try {
-      if (!id || id.length === 0) {
-        return next(new AppError("To update, you have to select a file", 400));
-      }
 
-      for (let i = 0; i < id.length; i++) {
-        const fileId = id[i];
-        console.log(fileId);
-        const file = await FileMetadata.findByPk(fileId);
-
-        if (!file) {
-          return next(new AppError("File not found.", 404));
-        }
-        deleteFileFromSystem(file.filename);
-        await file.update({
-          description,
-          categoryId,
-          filename: req.body.files[i].filename,
-        });
-      }
-
-      res.status(200).json({
-        status: "success",
-        message: "Updated successfully",
-      });
-    } catch (error) {
-      next(error);
+    if (!id || id.length === 0) {
+      return next(new AppError("To update, you have to select a file", 400));
     }
+
+    for (let i = 0; i < id.length; i++) {
+      const fileId = id[i];
+      console.log(fileId);
+      const file = await FileMetadata.findByPk(fileId);
+
+      if (!file) {
+        return next(new AppError("File not found.", 404));
+      }
+      deleteFileFromSystem(file.filename);
+      await file.update({
+        description,
+        categoryId,
+        filename: req.body.files[i].filename,
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Updated was successfully",
+    });
   }
 );
 
@@ -121,27 +118,23 @@ const deleteFile = catchAsync(
       return next(new AppError("To delete, you have to select a file", 400));
     }
 
-    try {
-      for (let fileId of id) {
-        const file = await FileMetadata.findByPk(fileId);
-        if (!file) {
-          return next(new AppError("File not found.", 404));
-        }
-
-        const filename = file.filename;
-
-        await file.destroy();
-
-        deleteFileFromSystem(filename);
+    for (let fileId of id) {
+      const file = await FileMetadata.findByPk(fileId);
+      if (!file) {
+        return next(new AppError("File not found.", 404));
       }
 
-      res.status(204).json({
-        status: "success",
-        data: null,
-      });
-    } catch (error) {
-      next(error);
+      const filename = file.filename;
+
+      await file.destroy();
+
+      deleteFileFromSystem(filename);
     }
+
+    res.status(204).json({
+      status: "success",
+      message: "File Deleted successfully",
+    });
   }
 );
 

@@ -17,11 +17,7 @@ class FileMetadata extends Model {
   public readonly category?: Category;
 
   static associate() {
-    FileMetadata.belongsTo(Category, {
-      foreignKey: "categoryId",
-      onDelete: "CASCADE",
-      hooks: true,
-    });
+    FileMetadata.belongsTo(Category);
   }
 }
 

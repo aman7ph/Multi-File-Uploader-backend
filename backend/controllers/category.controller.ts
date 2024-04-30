@@ -15,9 +15,7 @@ const createCategory = catchAsync(
 
     res.status(201).json({
       status: "success",
-      data: {
-        category,
-      },
+      message: "Category created successfully",
     });
   }
 );
@@ -65,9 +63,7 @@ const updateCategory = catchAsync(
 
     res.status(200).json({
       status: "success",
-      data: {
-        category,
-      },
+      message: "Category updated successfully",
     });
   }
 );
@@ -83,7 +79,7 @@ const deleteCategory = catchAsync(
 
     res.status(204).json({
       status: "success",
-      data: null,
+      message: "Category deleted successfully",
     });
   }
 );
